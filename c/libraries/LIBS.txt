@@ -1,0 +1,2 @@
+MQTT ; https://github.com/eclipse/paho.mqtt.embedded-c
+TLS ; https://github.com/Mbed-TLS/mbedtls
