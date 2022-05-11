@@ -1,0 +1,144 @@
+# Utilities that use regex
+
+Utility     Regular Expression Type
+vi          Basic
+sed         Basic
+grep        Basic
+csplit      Basic
+dbx         Basic
+dbxtool     Basic
+more        Basic
+ed          Basic
+expr        Basic
+lex         Basic
+pg          Basic
+nl          Basic
+rdist       Basic
+awk         Extended
+nawk        Extended
+egrep       Extended
+EMACS       EMACS Regular Expressions
+PERL        PERL Regular Expressions
+
+# Anchors
+
+^ - Beginning of a line
+$ - End of a line
+
+## Examples
+
+  Pattern   Matches
+    ^A      "A" at the beginning of a line
+    A$      "A" at the end of a line
+    A^      "A^" anywhere on a line
+    $A      "$A" anywhere on a line
+    ^^      "^" at the beginning of a line
+    $$      "$" at the end of a line
+
+# Special Characters
+
+.       Match any character
+[]      Range of characters
+*       Macthes zero or more copies
+\{\}    Used to specify minimum and maximum copies (between 0 and 255)
+\(\)    Backreference \1, \2, etc.
+\<\>
+
+## Examples
+
+Patter      Matches
+^.$         A line with a single characters
+^[0-9]$     Any line of text that contains exactly one number
+^ *         Match zero or more spaces at the beginning of the line
+^A\{4,8\}B  Any line starting with 4, 5, 6, 7 or 8 "A"'s followed by a "B"
+^A\{4,\}B   Any line starting with 4 or more "A"'s followed by a "B"
+\<[tT]he\>  Any the preposition in the text
+\([a-z]\)\([a-z]\)[a-z]\2\1      Matches a 5 letter palindrome (e.g. "radar")
+
+# Exceptions in a character set
+
+You can easily search for all characters except those in square brackets by putting a "^" as the first character after the "[". To match all characters except vowels use "[^aeiou]".
+
+Like the anchors in places that can't be considered an anchor, the characters "]" and "-" do not have a special meaning if they directly follow "[". Here are some examples:
+
+## Examples
+
+Pattern     Matches
+[]          The characters "[]"
+[0]         The character "0"
+[0-9]       Any number
+[^0-9]      Any character other than a number
+[-0-9]      Any number or a "-"
+[0-9-]      Any number or a "-"
+[^-0-9]     Any character except a number or a "-"
+[]0-9]      Any number or a "]"
+[0-9]]      Any number followed by a "]"
+[0-9-z]     Any number, or any character between "9" and "z".
+[0-9\-a\]]  Any number, or a "-", a "a", or a "]"
+
+# Extended Regex
+
+With these extensions, those special characters preceded by a backslash no longer have the special meaning: "\{" , "\}", "\<", "\>", "\(", "\)" as well as the "\digit".
+
+Regular     Class       Type            Meaning
+.           all         Character Set   A single character (except newline)
+^           all         Anchor          Beginning of line
+$           all         Anchor          End of line
+[...]       all         Character Set   Range of characters
+*           all         Modifier        zero or more duplicates
+\<          Basic       Anchor          Beginning of word
+\>          Basic       Anchor          End of word
+\(..\)      Basic       Backreference   Remembers pattern
+\1..\9      Basic       Reference       Recalls pattern
+_+          Extended    Modifier        One or more duplicates
+?           Extended    Modifier        Zero or one duplicate
+\{M,N\}     Extended    Modifier        M to N Duplicates
+(...|...)   Extended    Anchor          Shows alteration
+
+# POSIX Character Sets
+
+Character Group     Meaning
+[:alnum:]           Alphanumeric
+[:cntrl:]           Control Character
+[:lower:]           Lower case character
+[:space:]           Whitespace
+[:alpha:]           Alphabetic
+[:digit:]           Digit
+[:print:]           Printable character
+[:upper:]           Upper Case Character
+[:blank:]           whitespace, tabs, etc.
+[:graph:]           Printable and visible characters
+[:punct:]           Punctuation
+[:xdigit:]          Extended Digit
+
+# Perl Extentions
+
+Class   Type            Meaning
+\t      Character Set   tab
+\n      Character Set   newline
+\r      Character Set   return
+\f      Character Set   form
+\a      Character Set   alarm
+\e      Character Set   escape
+\033    Character Set   octal
+\x1B    Character Set   hex
+\c[     Character Set   control
+\l      Character Set   lowercase
+\u      Character Set   uppercase
+\L      Character Set   lowercase
+\U      Character Set   uppercase
+\E      Character Set   end
+\Q      Character Set   quote
+\w      Character Set   Match a "word" character
+\W      Character Set   Match a non-word character
+\s      Character Set   Match a whitespace character
+\S      Character Set   Match a non-whitespace character
+\d      Character Set   Match a digit character
+\D      Character Set   Match a non-digit character
+\b      Anchor          Match a word boundary
+\B      Anchor          Match a non-(word boundary)
+\A      Anchor          Match only at beginning of string
+\Z      Anchor          Match only at EOS, or before newline
+\z      Anchor          Match only at end of string
+\G      Anchor          Match only where previous m//g left off
+
