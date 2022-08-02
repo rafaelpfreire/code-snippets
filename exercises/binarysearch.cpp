@@ -12,3 +12,36 @@
 //
 // Sample Output:
 // 3
+
+#include <vector>
+#include <iostream>
+using namespace std;
+
+int binarySearchHelper(vector<int> array, int target, int index)
+{
+    int half = array.size() / 2;
+
+    if(array.size() == 0)
+    {
+        return -1;
+    }
+    else if(array[half] == target)
+    {
+        return index + half;
+    }
+	else if(array[half] > target)
+	{
+        std::vector<int> newvec(array.begin(), array.begin() + half);
+		return binarySearchHelper(newvec, target, index);
+	}
+	else
+	{
+        std::vector<int> newvec(array.begin() + half+1, array.end());
+		return binarySearchHelper(newvec, target, index+half+1);
+	}
+}
+
+int binarySearch(vector<int> array, int target)
+{
+    return binarySearchHelper(array, target, 0);
+}
