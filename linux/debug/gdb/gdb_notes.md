@@ -1,4 +1,4 @@
-#How to compile a program to use with gdb
+## How to compile a program to use with gdb
 ```bash
 gcc -g -o binaryfile source_code.c
 #-g tells the compiler to store symbol table information in the executable.
@@ -21,17 +21,13 @@ gdb
 (gdb) file path_to_binary
 ```
 
-GDB is a command line interface.
-
-This means you will be provided with a prompt at which you can type commands.
-
-The GDB commandline looks like this:
+GDB is a command line interface. This means you will be provided with a prompt at which you can type commands. The GDB commandline looks like this:
 
 ```bash
 (gdb)
 ```
 
-#Basic Commands
+## Basic Commands
 
 This starts the program which you want to debug. 
 
@@ -48,7 +44,7 @@ To exit GDB, use the quit command (abbreviated q) or type an end-of-file charact
 The "-q" (or "--quiet") option on the command line just tells GDB not to print version information on startup. 
 (gdb)quiet
 
-#Help
+## Help
 
 If you’re ever confused about a command or just want more information, use the “help” command, with or without an argument:
 
@@ -56,17 +52,11 @@ If you’re ever confused about a command or just want more information, use the
 (gdb) help [command]
 ```
 
-The whole purpose of coming to gdb was to pause, observe and proceed. 
+The whole purpose of coming to gdb was to pause, observe and proceed. There is no point in running a program without a breakpoint! 
 
-There is no point in running a program without a breakpoint! 
+## Breakpoints
 
-#Breakpoints
-
-Breakpoints can be used to stop the program run in the middle, at a designated point.
-
-Whenever gdb gets to a breakpoint it halts execution of your program and allows you to examine it
-
-Simplest way of putting a breakpoint is using the function name or a line number.
+Breakpoints can be used to stop the program run in the middle, at a designated point. Whenever gdb gets to a breakpoint it halts execution of your program and allows you to examine it. Simplest way of putting a breakpoint is using the function name or a line number.
 
 ```bash
 (gdb) break factorial 
@@ -76,13 +66,13 @@ Breakpoint 1 at 0x400538: file source_code.c, line 5.
 Breakpoint 2 at 0x400545: file source_code.c, line 7.
 ```
 
-#List of functions available
+### List of functions available
 
 ```bash
 (gdb) info functions 
 ```
 
-#List of breakpoints available
+### List of breakpoints available
 
 ```bash
 (gdb) info breakpoints 
@@ -94,13 +84,13 @@ Run the program and it will stop at the first breakpoint
 (gdb) r
 ```
 
-#Delete Breakpoints
+### Delete Breakpoints
 
 ```bash
 (gdb) delete <bpnumber>
 ```
 
-#Disable/Enable Breakpoints
+### Disable/Enable Breakpoints
 
 ```bash
 (gdb) disable <bpnumber>
@@ -108,7 +98,7 @@ Run the program and it will stop at the first breakpoint
 (gdb) enable <bpnumber>
 ```
 
-#Step by step
+## Step by step
 
 Once you have hit a breakpoint, you can have fine control over the execution of the program, using the following commands
 
@@ -149,10 +139,11 @@ The print command prints the value of the variable specified
 Prints the value in hexadecimal
 ```
 
-#Tip
+### Tip
+
 Typing “step” or “next” a lot of times can be tedious. If you just press ENTER, gdb will repeat the same command you just gave it.
 
-#Different ways to pass command line arguments
+## Different ways to pass command line arguments
 
 You can run gdb with --args parameter,
 
@@ -164,7 +155,7 @@ $ gdb ./a.out
 (gdb) r arg1 arg2 arg3
 ```
 
-#Debugging Segmentation Fault Example
+## Debugging Segmentation Fault Example
 
 The first step is to compile the program with debugging flags:
 
@@ -186,7 +177,6 @@ __GI__IO_getline_info (fp=fp@entry=0x7ffff7dd4640 <_IO_2_1_stdin_>, buf=buf@entr
     extract_delim=extract_delim@entry=1, eof=eof@entry=0x0) at iogetline.c:86
 86	iogetline.c: No such file or directory.
 ```
-
 
 So we received the SIGSEGV signal from the operating system. This means that we tried to access an invalid memory address
 
@@ -211,18 +201,16 @@ We are only interested in our own code here, so we want to switch to stack frame
 10		fgets(buf, 1024, stdin);
 ```
 
-We crashed inside the call to fgets.
-So the problem must be one of our arguments
+We crashed inside the call to fgets. So the problem must be one of our arguments
 
 ```bash
 (gdb) print buf
 $1 = 0x0
 ```
 
-The value of buf is 0x0, which is the NULL pointer. 
-malloc returns NULL when it cannot allocate the amount of memory requested. So our malloc must have failed. 
+The value of buf is 0x0, which is the NULL pointer. malloc returns NULL when it cannot allocate the amount of memory requested. So our malloc must have failed. 
 
-#Print Source Code In GDB Console
+## Print Source Code In GDB Console
 
 ```bash
 (gdb) list
@@ -242,7 +230,7 @@ You can also pass the list command <a line number> or <a function name> to tell 
 (gdb) list 1,14
 ```
 
-#Displaying Data
+## Displaying Data
 
 You can use print command to display the value of variables and other expressions
 
@@ -281,7 +269,7 @@ The x command examines memory, starting at a particular address.
 #on Intel machines, bytes are stored in “little-endian” order
 ```
 
-#Examining types with ptype
+## Examining types with ptype
 
 It tells you the type of a C expression
 
@@ -301,7 +289,7 @@ $2 = {1, 2, 3}
 (gdb) ptype a
 type = int [3]
 
-#use x to see what a looks like under the hood
+# use x to see what a looks like under the hood
 
 (gdb) x/12xb &a
 0x7fffffffded0:	0x01	0x00	0x00	0x00	0x02	0x00	0x00	0x00
@@ -315,29 +303,17 @@ type = int [3]
 $3 = 12
 ```
 
-#Using gdb to View the CPU Registers
+## Using gdb to View the CPU Registers
 
-The i r command displays the current contents of the CPU registers. 
+The i r command displays the current contents of the CPU registers. The first column is the name of the register. The second shows the current bit pattern in the register, in hexadecimal. The third column shows some the register contents in 32-bit/64-bit unsigned decimal. 
 
- The first column is the name of the register
-
-The second shows the current bit pattern in the register, in hexadecimal.
-
-The third column shows some the register contents in 32-bit/64-bit unsigned decimal. 
-
-#Frames
+## Frames
 
 A running application maintains a call stack that contains information about its functions that have been called.
 
-Each item in the stack is a call frame, and each frame contains both the information needed to return to its caller and the information needed to provide the local variables of the function.
+Each item in the stack is a call frame, and each frame contains both the information needed to return to its caller and the information needed to provide the local variables of the function. When your program starts, the call stack has only one frame, that of the function main. 
 
-When your program starts, the call stack has only one frame, that of the function main. 
-
-Each function call pushes a new frame onto the stack, and each function return removes the frame for that function from the stack.
-
-Recursive functions can generate many frames.
-
-Use backtrace.c for the below commands
+Each function call pushes a new frame onto the stack, and each function return removes the frame for that function from the stack. Recursive functions can generate many frames. Use backtrace.c for the below commands
 
 ```bash
 $ gcc backtrace.c -o backtrace -g
@@ -355,12 +331,11 @@ $ gdb ./backtrace
 (gdb) bt
 ```
 
-#Moving from one frame to another
+### Moving from one frame to another
 
 You can move between the stack frames using ‘frame [number]’
 
-
-#Get Information about a Stack Frame
+### Get Information about a Stack Frame
 
 You can get the information about a particular frame using ‘info frame [number]’ 
 
@@ -382,45 +357,27 @@ You can get the information about a particular frame using ‘info frame [number
 (gdb) info breakpoints      # list status of all breakpoints
 ```
 
-#Conditional Breakpoints
+## Conditional Breakpoints
 
-As long as a breakpoint is enabled, the debugger always stops at that breakpoint.
+As long as a breakpoint is enabled, the debugger always stops at that breakpoint. However, sometimes it's useful to tell the debugger to stop at a break point only if some condition is met, like the when a variable has a particularly interesting value. You can specify a break condition when you set a breakpoint by appending the keyword if to a normal break statement
 
-However, sometimes it's useful to tell the debugger to stop at a break point only if some condition is met, like the when a variable has a particularly interesting value.
+`break [position] if expression`
 
-You can specify a break condition when you set a breakpoint by appending the keyword if to a normal break statement
+In the above syntax position can be a function name or line number. If you already set a breakpoint at the desired position, you can use the condition command to add or change its break condition:
 
-break [position] if expression
+`condition bp_number [expression]`
 
-In the above syntax position can be a function name or line number.
+Watchpoints are similar to breakpoints. Watchpoints are set on variables. When those variables are read or written, the watchpoint is triggered and program execution stops.
 
-If you already set a breakpoint at the desired position, you can use the condition command to add or change its break condition:
+## How do I set a write watchpoint for a variable?
 
-condition bp_number [expression]
-
-Watchpoints are similar to breakpoints
-
-Watchpoints are set on variables. 
-
-When those variables are read or written, the watchpoint is triggered and program execution stops.
-
-#How do I set a write watchpoint for a variable?
-
-Use the watch command.
-
-The argument to the watch command is an expression that is evaluated. 
-
- This implies that the variabel you want to set a watchpoint on must be in the current scope.
-
-So, to set a watchpoint on a non-global variable, you must have set a breakpoint that will stop your program when the variable is in scope. 
-
-You set the watchpoint after the program breaks.
+Use the watch command. The argument to the watch command is an expression that is evaluated. This implies that the variabel you want to set a watchpoint on must be in the current scope. So, to set a watchpoint on a non-global variable, you must have set a breakpoint that will stop your program when the variable is in scope. You set the watchpoint after the program breaks.
 
 ```bash
 (gdb) watch x
 ```
 
-#How do I set a read watchpoint for a variable?
+### How do I set a read watchpoint for a variable?
 
 Use the rwatch command. Usage is identical to the watch command.
 
@@ -428,85 +385,69 @@ Use the rwatch command. Usage is identical to the watch command.
 (gdb) rwatch y 
 ```
 
-#How do I set a read/write watchpoint for a variable?
+### How do I set a read/write watchpoint for a variable?
 
 Use the awatch command. Usage is identical to the watch command.
 
-#How do I disable watchpoints?
+```bash
+(gdb) awatch z
+```
+
+## How do I disable watchpoints?
 
 Active watchpoints show up the breakpoint list. Use the info breakpoints command to get this list. Then use the disable command to turn off a watchpoint, just like disabling a breakpoint.
 
-#GDB Text User Interface (TUI)
+## GDB Text User Interface (TUI)
 
 The gdb Text User Interface (TUI) is a terminal interface which uses the curses library to show the
-	
-	 source file
-	 assembly output
-	 program registers
-	 and GDB Commands
+- source file
+- assembly output
+- program registers
+- and GDB Commands
 
-in separate text windows
+in separate text windows. The TUI mode is supported only on platforms where a suitable version of the curses library is available. The TUI mode is enabled by default when you invoke gdb as either ‘gdbtui’ or ‘gdb -tui’. You can also switch in and out of TUI mode while gdb runs by using various TUI commands and key bindings, such as Ctrl-x a
 
-The TUI mode is supported only on platforms where a suitable version of the curses library is available.
-
-The TUI mode is enabled by default when you invoke gdb as either ‘gdbtui’ or ‘gdb -tui’.
-
-You can also switch in and out of TUI mode while gdb runs by using various TUI commands and key bindings, such as Ctrl-x a
-	
-#Commands
+## Commands
 
 Ctrl - l -- to repaint the screen //when there are printf's displayed
 
 You can type commands on the command line like usual, but the arrow keys will scroll the source code view instead of paging through history or navigating the entered command.
 
-To switch focus to the command line view, type ctrl-x o and the arrow keys works as in the normal command line mode. 
+To switch focus to the command line view, type ctrl-x o and the arrow keys works as in the normal command line mode. Switching back to the source code view is done using the same key combination a second time.
 
-Switching back to the source code view is done using the same key combination a second time.
+You may want to save the output of gdb commands to a file. There are several commands to control gdb’s logging.
 
-You may want to save the output of gdb commands to a file
+`set logging on`
+Enable logging.	GDB saves all output from this point in a text file called gdb.txt that resides in the directory in which you are running GDB 
 
-There are several commands to control gdb’s logging.
+`set logging off`
+Disable logging. Note that you can turn logging on and off several times and GDB will concatenate output to the gdb.txt file
 
-set logging on
-	Enable logging. 
-	GDB saves all output from this point in a text file called gdb.txt that resides in the directory in which you are running GDB 
-
-set logging off
-	Disable logging.
-	Note that you can turn logging on and off several times and GDB will concatenate output to the gdb.txt file
-
-set logging file file
-	Change the name of the current logfile. The default logfile is ‘gdb.txt’.
+`set logging file file`
+Change the name of the current logfile. The default logfile is ‘gdb.txt’.
 
 Useful when you’re dealing with a long stack trace, or a multi-threaded stack trace
 
-#Debugging an Already-running Process
+## Debugging an Already-running Process
 
-attach process-id
+`attach process-id`
+This command attaches to a running process—one that was started outside gdb
 
-	This command attaches to a running process—one that was started outside gdb
+`detach`
+This command attaches to a running process—one that was started outside gdb
 
-detach
-
-	This command attaches to a running process—one that was started outside gdb
-
-Another Useful function of gdb debugger is the disassemble command. 
-as its name suggesting, this command helps in disassembling of provide function assembler codes. 
-
-like if we want to disassemble main function. we just need to type
+Another Useful function of gdb debugger is the disassemble command. As its name suggesting, this command helps in disassembling of provide function assembler codes. Like if we want to disassemble main function. we just need to type
 
 ```bash
 (gdb) disassemble main
 ```
 
-#start command
+## start command
 
-Sets a temporary breakpoint on main() and starts executing a program under GDB.
-
-command breakpoint-number specifies commands to run whenever the breakpoint is reached. 
+Sets a temporary breakpoint on main() and starts executing a program under GDB. Command breakpoint-number specifies commands to run whenever the breakpoint is reached. 
 
 ```bash
 (gdb) command 2
-  Type commands for when breakpoint 2 is hit, one per line.
-  End with a line saying just "end".
+#  Type commands for when breakpoint 2 is hit, one per line.
+#  End with a line saying just "end".
 ```
