@@ -1,0 +1,78 @@
+# Basic Usage
+```bash
+gdb -tui -q --args ./executable arg1 arg2 arg3
+gdbtui -q --args ./executable arg1 arg2 arg3
+```
+
+## Arguments
+```
+-q     : quiet
+-tui   : open the terminal user interface
+--args : program arguments
+```
+
+# References
+- [GDB Init file](https://www.cse.unsw.edu.au/~learn/debugging/modules/gdb_init_file/)
+
+# Comands
+```bash
+start #This command will add a breakpoint to main and run the code
+where #print te current file line number
+info functions #List of functions available
+info breakpoints #List of breakpoints configured
+info frame #list information abouut the current stack frame
+info variables #list all global and static variables
+info locals #list local variable values of current stack frame
+info args #list argument values of the current stack frame
+list #Print some lines of the currently executing code
+list 4,8 #Print lines 4 to 8 of the current file
+break main.c:7 #Add a breakpoint at line 7 of the file main.c
+break main #Add a breakpoint to the function 'main'
+break main.c:27 if i==5 #new conditional break point 'break [position] if expression
+command 1 #Specifies the commands to run whenever a breakpoint is reached
+watch x #watchpoint triggered when the variable is written
+rwatch y #watchpoint triggered when the variable is read
+awatch z #watchpoint triggered when the variable is read or written
+condition 3 i==5 #add a condition to an existing break point 'condition bp_number [expression]
+delete 1 #Delete the first breakpoint
+disable 1 #disable a watchpoint
+enable 1 #enable a watchpoint
+run arg1 arg2 #Run the program with 2 arguments
+continue #Continue running the program after a break
+next #Execute the next line of code
+step #Step into a function
+finish #Execute until the return of the current function
+backtrace #(bt) shows the function call stack frames
+where #show where the debugger has stopped
+frame 3 #Switch to function call stack number 3
+print buf #Print the value of the variable buf
+print &buf #Print the address of the variable buf
+x /x &i #Examine the memory of address &i
+x /4xb &i #Examine the first 4 bytes of address &i
+ptype i #Print the type of the variable i
+print sizeof(buf) #Print the size of the variable buf
+set msg="Linux" #Reassinging variable msg
+set logging on #Enable logging to a file
+set logging off #Disable logging to a file
+set logging file filename #Change logging file name
+shell ps -ef | grep process_name #To execute a shell command
+attach pid #To start debugging a already running process
+detach pid #To stop debugging a already running process
+```
+
+```bash
+help
+# aliases -- User-defined aliases of other commands.
+# breakpoints -- Making program stop at certain points.
+# data -- Examining data.
+# files -- Specifying and examining files.
+# internals -- Maintenance commands.
+# obscure -- Obscure features.
+# running -- Running the program.
+# stack -- Examining the stack.
+# status -- Status inquiries.
+# support -- Support facilities.
+# text-user-interface -- TUI is the GDB text based interface.
+# tracepoints -- Tracing of program execution without stopping the program.
+# user-defined -- User-defined commands.
+```
