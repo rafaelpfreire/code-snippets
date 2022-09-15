@@ -1,2 +1,0 @@
-# System Design Course
-https://github.com/karanpratapsingh/system-design?utm_source=tldrnewsletter
