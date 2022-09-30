@@ -23,7 +23,7 @@ Typically refers to peprcentages of uptime. For example five nines of availabili
 - 99.99%: 52.6 minutes
 - 99.999%: 5.3 minutes
 
-### Sinfle Point of Failure (SPOF)
+### Single Point of Failure (SPOF)
 A single point of failure (SPOF) is a part of a system that, if it fails, will stop the entire system from working. SPOFs are undesirable in any system with a goal of high availability or reliability, be it a business practice, software application, or other industrial system.
 
 ### Redundancy
