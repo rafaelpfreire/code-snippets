@@ -47,6 +47,29 @@ or
 
 GDB will then output the backtrace.
 
+## Configuring Apport Service (Ubuntu)
+
+Apport is the crash managing service in Ubuntu systems. First of all, make sure the service is running:
+
+```bash
+$ sudo systemctl status apport.service
+```
+
+Create a config file for your programs
+
+```bash
+mkdir -p ~/.config/apport
+printf '[main]
+unpackaged=true
+' >> ~/.config/apport/settings
+```
+
+Check Apport logs to get info about your core dump files. Ususally core dump files are located inside `/var/lib/apport/coredump/`
+
+```bash
+cat /var/log/apport.log
+```
+
 ## Dumping core from outside the program
 
 One possibility is with gdb, if available. This will let the program running:
