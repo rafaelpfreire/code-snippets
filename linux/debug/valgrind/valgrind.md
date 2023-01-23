@@ -244,3 +244,5 @@ kcachegrind profile.callgrind
 Alternatively, profiling the whole application can be done without any changes or recompilation/linking, but I will not cover this here as this is not the recommended approach. But you can find more about this in the docs.
 
 The gperftools profiler can profile multi-threaded applications. The run time overhead while profiling is very low and the applications run at “native speed”. We can again use KCachegrind for analyzing the profiling data after converting it to a cachegrind compatible format. I also like the possibility to be able to selectively profile just certain areas of the code, and if you want to, you can easily extend your program to enable/disable profiling at runtime.
+
+More info about gprof: https://web.eecs.umich.edu/~sugih/pointers/gprof_quick.html#:~:text=gprof%20is%20a%20type%20of,functions%20while%20it%20was%20executing.
