@@ -187,3 +187,60 @@ Performance: target software may run up to 10 to 30 times slower when run under 
 Memory footprint: each allocation within the target program requires Valgrind to make a memory allocation as well (making running Valgrind on highly-resource-constrained embedded Linux systems difficult).
 
 In order to see the call stack with line-number information, a recompile/build with the -g flag is required.
+
+## Callgrind Tool
+
+For performance profiling, we are interested in the tool callgrind: a profiling tool that records the function call history as a call-graph.
+
+For analyzing the collected profiling data, there is is the amazing visualization tool KCachegrind. It represents the collected data in a very nice way what tremendously helps to get an overview about whats going on.
+
+Creating a CPU profile of your application with valgrind/callgrind is really simple and requires the following steps:
+
+- compile your program with debugging symbols enabled (to get a meaningful call-graph)
+- execute your program with valgrind --tool=callgrind ./yourprogram to generate the profiling data file
+- analyze your profiling data with e.g. KCachegrind
+
+Let’s apply this (profile_valgrind.sh):
+
+```bash
+#!/bin/bash
+
+# build the program (no special flags are needed)
+g++ -std=c++11 cpuload.cpp -o cpuload
+
+# run the program with callgrind; generates a file callgrind.out.12345 that can be viewed with kcachegrind
+valgrind --tool=callgrind --dump-instr=yes --callgrind-out-file=callgrind.out ./cpuload
+
+# open profile.callgrind with kcachegrind
+kcachegrind profile.callgrind
+```
+Another tool to perform program profiling is Gperftools. Gperftools from Google provides a set of tools aimed for analyzing and improving performance of multi-threaded applications. They offer a CPU profiler, a fast thread aware malloc implementation, a memory leak detector and a heap profiler. We focus on their sampling based CPU profiler.
+
+Creating a CPU profile of selected parts of your application with gperftools requires the following steps:
+
+- compile your program with debugging symbols enabled (to get a meaningful call graph) and link gperftools profiler.so
+- #include <gperftools/profiler.h> and surround the sections you want to profile with ProfilerStart("nameOfProfile.log"); and ProfilerStop();
+- execute your program to generate the profiling data file(s)
+- To analyze the profiling data, use pprof (distributed with gperftools) or convert it to a callgrind compatible format and analyze it with KCachegrind
+
+Let’s apply this (profile_gperftools.sh):
+
+```bash
+#!/bin/bash
+
+# build the program; For our demo program, we specify -DWITHGPERFTOOLS to enable the gperftools specific #ifdefs
+g++ -std=c++11 -DWITHGPERFTOOLS -lprofiler -g ../cpuload.cpp -o cpuload
+
+# run the program; generates the profiling data file (profile.log in our example)
+./cpuload
+
+# convert profile.log to callgrind compatible format
+pprof --callgrind ./cpuload profile.log > profile.callgrind
+
+# open profile.callgrind with kcachegrind
+kcachegrind profile.callgrind
+```
+
+Alternatively, profiling the whole application can be done without any changes or recompilation/linking, but I will not cover this here as this is not the recommended approach. But you can find more about this in the docs.
+
+The gperftools profiler can profile multi-threaded applications. The run time overhead while profiling is very low and the applications run at “native speed”. We can again use KCachegrind for analyzing the profiling data after converting it to a cachegrind compatible format. I also like the possibility to be able to selectively profile just certain areas of the code, and if you want to, you can easily extend your program to enable/disable profiling at runtime.
