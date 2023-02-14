@@ -38,7 +38,7 @@ $ - End of a line
 # Special Characters
 
 .       Match any character
-[]      Range of characters
+[]      Range of characters. Specifies the character class.
 *       Macthes zero or more copies
 \{\}    Used to specify minimum and maximum copies (between 0 and 255)
 \(\)    Backreference \1, \2, etc.
@@ -129,12 +129,12 @@ Class   Type            Meaning
 \U      Character Set   uppercase
 \E      Character Set   end
 \Q      Character Set   quote
-\w      Character Set   Match a "word" character
-\W      Character Set   Match a non-word character
-\s      Character Set   Match a whitespace character
-\S      Character Set   Match a non-whitespace character
-\d      Character Set   Match a digit character
-\D      Character Set   Match a non-digit character
+\w      Character Set   Matches any alphanumeric character (word); this is equivalent to the class [a-zA-Z0-9_]
+\W      Character Set   Matches any non-alphanumeric character; this is equivalent to the class [^a-zA-Z0-9_]
+\s      Character Set   Match a whitespace character. This is equivalent to the class [ \t\n\r\f\v]
+\S      Character Set   Match a non-whitespace character. This is equivalent to the class [^ \t\n\r\f\v]
+\d      Character Set   Match a digit character. This is equivalent to the class [0-9]
+\D      Character Set   Match a non-digit character. This is equivalent to the class [^0-9]
 \b      Anchor          Match a word boundary
 \B      Anchor          Match a non-(word boundary)
 \A      Anchor          Match only at beginning of string
