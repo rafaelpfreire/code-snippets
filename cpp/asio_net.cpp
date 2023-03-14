@@ -1,4 +1,4 @@
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
 #include <boost/asio/write.hpp>
 #include <boost/asio/buffer.hpp>
 #include <boost/asio/ip/tcp.hpp>
@@ -10,17 +10,17 @@
 using namespace boost::asio;
 using namespace boost::asio::ip;
 
-io_service ioservice;
+io_context iocontext;
 
 // Client
-tcp::resolver resolv{ioservice};
-tcp::socket client_tcp_socket{ioservice};
+tcp::resolver resolv{iocontext};
+tcp::socket client_tcp_socket{iocontext};
 std::array<char, 4096> bytes;
 
 // Server
 tcp::endpoint tcp_endpoint{tcp::v4(), 2014};
-tcp::acceptor tcp_acceptor{ioservice, tcp_endpoint};
-tcp::socket server_tcp_socket{ioservice};
+tcp::acceptor tcp_acceptor{iocontext, tcp_endpoint};
+tcp::socket server_tcp_socket{iocontext};
 std::string data;
 
 void client_read_handler(const boost::system::error_code &ec,
@@ -74,5 +74,5 @@ int main()
     tcp::resolver::query q{"localhost", "2014"};
     resolv.async_resolve(q, client_resolve_handler);
 
-    ioservice.run();
+    iocontext.run();
 }
