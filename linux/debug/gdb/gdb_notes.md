@@ -84,6 +84,25 @@ Run the program and it will stop at the first breakpoint
 (gdb) r
 ```
 
+### Breakpoint in multithreaded system
+
+When your program has multiple threads, you can choose whether to set breakpoints on all threads, or on a particular thread.
+
+```bash
+(gdb) break locspec thread thread-id
+(gdb) break locspec thread thread-id if …
+```
+
+locspec specifies a code location or locations in your program. See Location Specifications, for details.
+
+You can use the thread qualifier on conditional breakpoints as well; in this case, place ‘thread thread-id’ before or after the breakpoint condition, like this:
+
+```bash
+(gdb) break frik.c:13 thread 28 if bartab > lim
+```
+
+Thread-specific breakpoints are automatically deleted when GDB detects the corresponding thread is no longer in the thread list.
+
 ### Delete Breakpoints
 
 ```bash
