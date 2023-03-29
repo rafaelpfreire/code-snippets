@@ -32,17 +32,30 @@ GDB is a command line interface. This means you will be provided with a prompt a
 This starts the program which you want to debug. 
 
 ```bash
-(gdb)run
+(gdb) run
 ```
 
 To exit GDB, use the quit command (abbreviated q) or type an end-of-file character (usually Ctrl-d).
 
 ```bash
-(gdb)quit
+(gdb) quit
 ```
 
 The "-q" (or "--quiet") option on the command line just tells GDB not to print version information on startup. 
-(gdb)quiet
+(gdb) quiet
+
+You can also start gdb from a PID. From the command line, include the pid as an argument after the executable name:
+
+```bash
+gdb /path/to/prog PID
+```
+
+From within gdb, you can use the attach command:
+
+```bash
+gdb /path/to/prog
+gdb> attach PID
+```
 
 ## Help
 
