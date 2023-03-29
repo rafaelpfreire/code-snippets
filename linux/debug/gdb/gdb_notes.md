@@ -54,7 +54,7 @@ From within gdb, you can use the attach command:
 
 ```bash
 gdb /path/to/prog
-gdb> attach PID
+(gdb) attach PID
 ```
 
 ## Help
