@@ -21,8 +21,15 @@ int main()
     std::mt19937 gen{ std::random_device{}() };
     std::ranges::generate(v, gen);
  
+    // May not be parallelized neither vectorized
     measure(std::execution::seq, v);
+ 
+    // May be vectorized
     measure(std::execution::unseq, v);
+ 
+    // May be parallelized, vectorized or migrated across threads
     measure(std::execution::par_unseq, v);
+ 
+    // May be parallelized
     measure(std::execution::par, v);
 }
