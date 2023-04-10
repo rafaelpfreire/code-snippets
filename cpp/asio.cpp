@@ -1,3 +1,4 @@
+#include <boost/asio/executor_work_guard.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <chrono>
@@ -8,6 +9,14 @@ using namespace boost::asio;
 int main()
 {
   io_context iocontext;
+
+  // Do this if you don't want io_context::run()
+  // to return after work was done
+  //auto work_guard = make_work_guard(iocontext);
+
+  iocontext.post([]() {
+          std::cout << "This is a test" << std::endl;
+          });
 
   steady_timer timer1{iocontext, std::chrono::seconds{3}};
   timer1.async_wait([](const boost::system::error_code &ec)
