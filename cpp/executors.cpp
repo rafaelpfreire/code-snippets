@@ -7,7 +7,6 @@ constexpr auto N_THREADS = 5;
 constexpr auto N_TIMERS = 10;
 
 int main() {
-    std::vector<std::shared_future<void>> results;
     boost::asio::thread_pool pool(N_THREADS);
     auto executor = pool.get_executor();
 
@@ -28,8 +27,10 @@ int main() {
 
     // Run timers in thread pool
     for(int i = 0; i < N_TIMERS; i++) {
-        results.push_back(
-            boost::asio::post(executor, boost::asio::use_future([i]() {
+        // This will return a future obj if you need it
+        // because we are usion asio::use_future
+        boost::asio::post(pool,
+            boost::asio::use_future([i]() {
                 std::this_thread::sleep_for(std::chrono::milliseconds(i * 10));
                 std::cout <<
                     "Timer " << i << " " <<
@@ -37,7 +38,7 @@ int main() {
                     std::this_thread::get_id() <<
                     std::endl; 
             }
-        )));
+        ));
     }
 
     // A strand is an executor and an executor adapter.
@@ -49,21 +50,18 @@ int main() {
     // thread of the thread pool
     boost::asio::strand<boost::asio::thread_pool::executor_type> strand(executor);
     for(int i = 0; i < 5*N_THREADS; i++) {
-        results.push_back(
-            boost::asio::post(strand, boost::asio::use_future([i]() {
+        boost::asio::post(strand,
+            boost::asio::use_future([i]() {
                 std::cout <<
                     "Task number " << i << " " <<
                     "executing in thread " <<
                     std::this_thread::get_id() <<
                     std::endl;
             }
-        )));
+        ));
     }
 
-    // Wait for all tasks to finish
-    for(auto result: results) {
-        result.get();
-    }
+    pool.join();
 
     return 0;
 }
