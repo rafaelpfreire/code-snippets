@@ -102,8 +102,10 @@ Run the program and it will stop at the first breakpoint
 When your program has multiple threads, you can choose whether to set breakpoints on all threads, or on a particular thread.
 
 ```bash
-(gdb) break locspec thread thread-id
-(gdb) break locspec thread thread-id if …
+(gdb) info threads
+(gdb) thread <thread-id>
+(gdb) break <locspec> thread <thread-id>
+(gdb) break <locspec> thread <thread-id> if …
 ```
 
 locspec specifies a code location or locations in your program. See Location Specifications, for details.
