@@ -21,6 +21,16 @@ gdb
 (gdb) file path_to_binary
 ```
 
+or if you need to start gdb from a running process
+
+```bash
+gdb path_to_binary PID
+
+# Or even
+gdb path_to_binary
+(gdb) attach PID
+```
+
 GDB is a command line interface. This means you will be provided with a prompt at which you can type commands. The GDB commandline looks like this:
 
 ```bash
