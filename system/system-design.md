@@ -34,3 +34,9 @@ Short for "service-level agreement", SLA is a colection of guarantees given to a
 
 ### SLO
 Short for "service-level objective", SLO is a guarantee given to a customer by a service provider. SLOs typically make guarantees on a system's availability, amongst other things. SLO constitute an SLA
+
+
+
+
+
+TODO: graylog: https://www.graylog.org/
