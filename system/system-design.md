@@ -39,4 +39,8 @@ Short for "service-level objective", SLO is a guarantee given to a customer by a
 
 
 
-TODO: graylog: https://www.graylog.org/
+TODO: 
+- graylog: https://www.graylog.org/
+- spdlog
+- fftw: https://www.fftw.org/
+- volk: https://github.com/gnuradio/volk
