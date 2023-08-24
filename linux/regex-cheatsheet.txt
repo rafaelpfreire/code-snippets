@@ -39,11 +39,12 @@ $ - End of a line
 
 .       Match any character
 []      Range of characters. Specifies the character class.
+[^]     Leading caret in the range means "not these characters" ex. [^AB]
 *       Macthes zero or more copies
 +       Matches one or more copies
 ?       Matches zero or one copies
 \{\}    Used to specify minimum and maximum copies (between 0 and 255)
-\(\)    Backreference \1, \2, etc.
+\(\)    Backreference \1, \2, etc. Repeating the content of a group inside the parenthesis
 \<\>
 
 ## Examples
