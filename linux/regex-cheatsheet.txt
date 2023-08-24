@@ -40,6 +40,8 @@ $ - End of a line
 .       Match any character
 []      Range of characters. Specifies the character class.
 *       Macthes zero or more copies
++       Matches one or more copies
+?       Matches zero or one copies
 \{\}    Used to specify minimum and maximum copies (between 0 and 255)
 \(\)    Backreference \1, \2, etc.
 \<\>
