@@ -35,9 +35,18 @@ Short for "service-level agreement", SLA is a colection of guarantees given to a
 ### SLO
 Short for "service-level objective", SLO is a guarantee given to a customer by a service provider. SLOs typically make guarantees on a system's availability, amongst other things. SLO constitute an SLA
 
+## Caching
+Caching is typically used when you need to do a lot of long operations (i.e. networking requests, reads from database, perform long algorithm operations) and you want to avoid doing so.
 
+### Write Through Cache
+When you write a peace of data, the system will write in both in the cache and in the main source of truth using the same operation. With this type you will always have to access the main source of truth in each write operation. If you're dealing with static data (doesn't change too often) caches works beautifully, but you're dealing with data that is mutable things start to get tricky.
 
+### Write Back Cache
+When you write a peace of data, the system will only write in the cache. That way your cache would be some time out of sync with your main source of truth. Behind the scenes your system should asynchronously update the main source or truth (i.e. database) with the values stored in the cache (based on time or size of the cache).
 
+Stale Caches that hold stale data
+
+- Redis: cache solution
 
 TODO: 
 - graylog: https://www.graylog.org/
