@@ -38,7 +38,7 @@ Short for "service-level objective", SLO is a guarantee given to a customer by a
 ## Cache
 A piece of hardware of software that stores data, typically meant to retrieve that data faster than otherwise. Caching is typically used when you need to do a lot of long operations (i.e. networking requests, reads from database, perform long algorithm operations) and you want to avoid doing so. Note that data in the cache can become stale if the main source of truth for that data (i.e., the main database behind the cache) gets updated and the cache doesn't.
 
-Popular COTS solution for caches is: Redis
+Popular COTS solution for caches is: Redis (https://redis.io/)
 
 A cache hit is when requested data is found in a cache. Cache miss is when requested data could have been found in a cache but it isn't. This is typically used to refer to a negative consequence of a system failure or of a poor design choice. For example: If a server goes down, our load balancer will have to forward requests to a new server, which will result in cache misses.
 
@@ -53,6 +53,26 @@ When you write a peace of data, the system will write in both in the cache and i
 
 ### Write Back Cache
 When you write a peace of data, the system will only write in the cache. That way your cache would be some time out of sync with your main source of truth. Behind the scenes your system should asynchronously update the main source or truth (i.e. database) with the values stored in the cache (based on time or size of the cache).
+
+## Proxy
+Intermediary servers that boast many important real life applications within the context of caching, access control, censorship bypassing, gather metrics, load balancer, etc.
+
+Popular COTS solution for proxies/load balancer: Nginx (https://www.nginx.com/)
+
+### Forward Proxy
+A server that sits between a client and servers and acts on behalf of the client, typically used to mask the client's identity (IP address). Note that forward proxies are often referred to as just proxies.
+
+### Reverse Proxy
+A server that sits between clients and servers and acts on behalf of the servers, typically used for logging, load balancing or caching.
+
+## Load Balancer
+A type of reverse proxy that distributes traffic accross servers. Load balancers can be found in many parts of a system, from the DNS layer all the way to the database layer.
+
+### Server Selection Strategy
+How a load balancer chooses servers when distributing traffic amongst multiple servers. Commonly used strategies include round-robin, random selection, performance-based selection (choosing the server with the best performance metrics, like the fastest response time or the least amount of traffic), and IP-based routing.
+
+### Hot Spot
+When distributing a workload accross a set of servers, that workload might be spread unevenly. This can happen if your sharding key of your hashing function are suboptimal, or if your workload is naturally skewed: some servers will receive a lot more traffic than others, thus creating a "hot spot".
 
 
 TODO: 
