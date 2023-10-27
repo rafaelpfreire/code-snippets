@@ -74,9 +74,15 @@ How a load balancer chooses servers when distributing traffic amongst multiple s
 ### Hot Spot
 When distributing a workload accross a set of servers, that workload might be spread unevenly. This can happen if your sharding key of your hashing function are suboptimal, or if your workload is naturally skewed: some servers will receive a lot more traffic than others, thus creating a "hot spot".
 
+### Technique of software load balancer
+First of all the load balancer should know addresses and/or names of the servers that are available
+- *DNS Round Robin Load Balancer*:
+- *Random redirection*: 
 
 TODO: 
 - graylog: https://www.graylog.org/
 - spdlog
 - fftw: https://www.fftw.org/
 - volk: https://github.com/gnuradio/volk
+- vectorclass: https://github.com/vectorclass/version2
+- eigen: https://eigen.tuxfamily.org/index.php?title=Main_Page
