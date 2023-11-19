@@ -158,8 +158,7 @@ Prerequisites
 
 Packages and package installation vary depending on your development system.
 
-(*) Install the required packages for Yocto to Work from
-        https://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#ubuntu-packages
+(*) Install the required packages for Yocto to Work from https://docs.yoctoproject.org/ref-manual/system-requirements.html
 
 $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
     build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
