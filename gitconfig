@@ -1,0 +1,8 @@
+[user]
+	name = Rafael Freire
+	email = <email>
+[core]
+	excludesfile = /home/rafael/.gitignore_global
+	editor = vim
+[alias]
+	logg = log --decorate --oneline --graph --all
