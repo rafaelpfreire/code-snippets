@@ -16,7 +16,9 @@ int main() {
     std::uniform_int_distribution<int> distribution(min, max - 1);
 
     // Random indexing a big buffer would give us a lot of
-    // L3 cache misses. Prefetching would fix the problem
+    // L3 cache misses. Prefetching would fix the problem.
+    // Also foo() was developed in ASM in order to avoid
+    // compiler optimizations.
     for (int i = 0; i < 100000000; i++) {
          int random_int = distribution(generator);
         //__builtin_prefetch ( a + random_int, 0, 1);
