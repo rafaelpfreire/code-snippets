@@ -62,15 +62,23 @@ URL: easyperf.net
 - Step 1: Identify the bottleneck
 Run the first level topdown so you can identify if the bottleneck is coming from Frontend, Bad Speculation, Backend or Retiring
 You can use linux `perf` in order to run first level TMA
-```perf stat --topdown -a -- taskset -c 0 ./perf-test```
+```
+perf stat --topdown -a -- taskset -c 0 ./perf-test
+```
 Or you might want to use `pmu-tools`
-```./pmu-tools/toplev.py --core S0-C0 -l1 -v --no-desc taskset -c 0 ./perf-test```
+```
+./pmu-tools/toplev.py --core S0-C0 -l1 -v --no-desc taskset -c 0 ./perf-test
+```
 - Step 2: Locate the place in the code
 Then you can run the second level in order to have more details. Also you can run `toplev` with --show-sample in order to get a full `perf` command with the PMC names to sample.
-```./pmu-tools/toplev.py --show-sample --core S0-C0 -l2 -v --no-desc taskset -c 0 ./perf-test```
+```
+./pmu-tools/toplev.py --show-sample --core S0-C0 -l2 -v --no-desc taskset -c 0 ./perf-test
+```
 Once you have the PMC names use `perf record` and `perf report` in order to locate the bottleneck inside your code
-```perf record -e cpu/event=0xd1,umask=0x20,name=MEM_LOAD_RETIRED.L3_MISS/ppp ./a.out```
-```perf report -n --stdio```
+```
+perf record -e cpu/event=0xd1,umask=0x20,name=MEM_LOAD_RETIRED.L3_MISS/ppp ./a.out
+perf report -n --stdio
+```
 - Step 3: fix it
 
 ### LBR Step by Step
