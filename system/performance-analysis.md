@@ -113,3 +113,15 @@ perf record -e cycles -b -- ./perf-test
 perf report -n --sort symbol_from,symbol_to -F +cycles,srcline_from,srcline_to --stdio
 ```
 - Estimating branch probability using LBR: https://easyperf.net/blog/2019/05/06/Estimating-branch-probability
+
+# PEBS Step by Step
+- Check if PEBS is available in your system
+```
+dmesg | grep PEBS
+```
+- Hardware skid: https://software.intel.com/en-us/vtune-help-hardware-event-skid; https://easyperf.net/blog/2018/08/29/Understanding-performance-events-skid
+- Analysing memory accesses
+```
+perf mem record -- ./perf-test
+perf mem -t load report --sort=mem --stdio
+```
