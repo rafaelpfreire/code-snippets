@@ -62,13 +62,46 @@ URL: easyperf.net
 - Step 1: Identify the bottleneck
 Run the first level topdown so you can identify if the bottleneck is coming from Frontend, Bad Speculation, Backend or Retiring
 You can use linux `perf` in order to run first level TMA
-`perf stat --topdown -a -- taskset -c 0 ./perf-test`
+```perf stat --topdown -a -- taskset -c 0 ./perf-test```
 Or you might want to use `pmu-tools`
-`./pmu-tools/toplev.py --core S0-C0 -l1 -v --no-desc taskset -c 0 ./perf-test`
+```./pmu-tools/toplev.py --core S0-C0 -l1 -v --no-desc taskset -c 0 ./perf-test```
 - Step 2: Locate the place in the code
 Then you can run the second level in order to have more details. Also you can run `toplev` with --show-sample in order to get a full `perf` command with the PMC names to sample.
-`./pmu-tools/toplev.py --show-sample --core S0-C0 -l2 -v --no-desc taskset -c 0 ./perf-test`
+```./pmu-tools/toplev.py --show-sample --core S0-C0 -l2 -v --no-desc taskset -c 0 ./perf-test```
 Once you have the PMC names use `perf record` and `perf report` in order to locate the bottleneck inside your code
-`perf record -e cpu/event=0xd1,umask=0x20,name=MEM_LOAD_RETIRED.L3_MISS/ppp ./a.out`
-`perf report -n --stdio`
+```perf record -e cpu/event=0xd1,umask=0x20,name=MEM_LOAD_RETIRED.L3_MISS/ppp ./a.out```
+```perf report -n --stdio```
 - Step 3: fix it
+
+### LBR Step by Step
+- Users can make sure LBRs are enabled on their system by doing the following command:
+```
+dmesg | grep -i lbr
+# [ 0.228149] Performance Events: PEBS fmt3+, 32-deep LBR, Skylake events,
+# full-width counters, Intel PMU driver.
+```
+- With Linux perf, one can collect LBR stacks using the command below:
+```perf record -b -e cycles ./perf-test```
+- Below is the Linux perf command one can use to dump the contents of collected branch stacks:
+```perf script -F brstack &> dump.txt```
+- Capture call graph
+```
+perf record --call-graph lbr -- ./a.exe
+perf report -n --stdio
+```
+- Identify hot branches
+```
+perf record -e cycles -b -- ./a.exe
+perf report -n --sort overhead,srcline_from,srcline_to -F +dso,symbol_from,symbol_to --stdio
+```
+- Analyze branch misprediction rate
+```
+perf record -e cycles -b -- ./a.exe
+perf report -n --sort symbol_from,symbol_to -F +mispredict,srcline_from,srcline_to --stdio
+```
+- Precise timing of machine code: This can be done by creating a probability density graph of the sampled number of cycles between branches. This information can be extracted using perf or manually as explained in this post: https://easyperf.net/blog/2019/04/03/Precise-timing-of-machine-code-with-Linux-perf
+```
+perf record -e cycles -b -- ./perf-test
+perf report -n --sort symbol_from,symbol_to -F +cycles,srcline_from,srcline_to --stdio
+```
+- Estimating branch probability using LBR: https://easyperf.net/blog/2019/05/06/Estimating-branch-probability
