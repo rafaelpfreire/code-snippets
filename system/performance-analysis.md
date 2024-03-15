@@ -89,9 +89,13 @@ dmesg | grep -i lbr
 # full-width counters, Intel PMU driver.
 ```
 - With Linux perf, one can collect LBR stacks using the command below:
-```perf record -b -e cycles ./perf-test```
+```
+perf record -b -e cycles ./perf-test
+```
 - Below is the Linux perf command one can use to dump the contents of collected branch stacks:
-```perf script -F brstack &> dump.txt```
+```
+perf script -F brstack &> dump.txt
+```
 - Capture call graph
 ```
 perf record --call-graph lbr -- ./a.exe
@@ -107,11 +111,12 @@ perf report -n --sort overhead,srcline_from,srcline_to -F +dso,symbol_from,symbo
 perf record -e cycles -b -- ./a.exe
 perf report -n --sort symbol_from,symbol_to -F +mispredict,srcline_from,srcline_to --stdio
 ```
-- Precise timing of machine code: This can be done by creating a probability density graph of the sampled number of cycles between branches. This information can be extracted using perf or manually as explained in this post: https://easyperf.net/blog/2019/04/03/Precise-timing-of-machine-code-with-Linux-perf
+- Precise timing of machine code: This can be done by creating a probability density graph of the sampled number of cycles between branches. This sampling method is not affected by context switches, that's why you should use this in order to have a precise measurement of timing. This information can be extracted using perf or manually as explained in this post: https://easyperf.net/blog/2019/04/03/Precise-timing-of-machine-code-with-Linux-perf
 ```
 perf record -e cycles -b -- ./perf-test
 perf report -n --sort symbol_from,symbol_to -F +cycles,srcline_from,srcline_to --stdio
 ```
+- Problem on measuring time within the code (e.g. rdtsc instruction): OS context switches, CPU frequency changes, you're not really measuring production code. (https://www.strchr.com/performance_measurements_with_rdtsc)
 - Estimating branch probability using LBR: https://easyperf.net/blog/2019/05/06/Estimating-branch-probability
 
 ### PEBS Step by Step
