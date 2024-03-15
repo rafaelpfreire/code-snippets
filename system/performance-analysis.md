@@ -136,3 +136,12 @@ perf mem -t load report --sort=mem --stdio
 - Part 2: https://easyperf.net/blog/2019/08/30/Intel-PT-part2
 - Part 3: https://easyperf.net/blog/2019/09/06/Intel-PT-part3
 - Part 4: https://easyperf.net/blog/2019/09/13/Intel-PT-part4
+
+### Final Thoughts
+- Performance engineering is an art. And like in any art, the set of possible scenarios is endless. This chapter tries to address optimizations specific to CPU microarchitecture without trying to cover all existing optimization opportunities one can imagine. Still, I think it is important to at least name some high-level ones:
+- If a program is written using interpreted languages (python, javascript, etc.), rewrite its performance-critical portion in a language with less overhead.
+- Analyze the algorithms and data structures used in the program, see if you can find better ones.
+- Tune compiler options. Check that you use at least these three compiler flags: -O3 (enables machine-independent optimizations), -march (enables optimizations for particular CPU generation), -flto (enables inter-procedural optimizations).
+- If a problem is a highly parallelizable computation, make it threaded, or consider running it on a GPU.
+- Use async IO to avoid blocking while waiting for IO operations.
+- Leverage using more RAM to reduce the amount of CPU and IO you have to use (memoization, look-up tables, caching of data, compression, etc.)
