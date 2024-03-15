@@ -114,7 +114,7 @@ perf report -n --sort symbol_from,symbol_to -F +cycles,srcline_from,srcline_to -
 ```
 - Estimating branch probability using LBR: https://easyperf.net/blog/2019/05/06/Estimating-branch-probability
 
-# PEBS Step by Step
+### PEBS Step by Step
 - Check if PEBS is available in your system
 ```
 dmesg | grep PEBS
@@ -125,3 +125,9 @@ dmesg | grep PEBS
 perf mem record -- ./perf-test
 perf mem -t load report --sort=mem --stdio
 ```
+
+### Intel Processor Traces Step by Step
+- Part 1: https://easyperf.net/blog/2019/08/23/Intel-Processor-Trace
+- Part 2: https://easyperf.net/blog/2019/08/30/Intel-PT-part2
+- Part 3: https://easyperf.net/blog/2019/09/06/Intel-PT-part3
+- Part 4: https://easyperf.net/blog/2019/09/13/Intel-PT-part4
