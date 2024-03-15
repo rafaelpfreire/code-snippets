@@ -79,6 +79,21 @@ First of all the load balancer should know addresses and/or names of the servers
 - *DNS Round Robin Load Balancer*:
 - *Random redirection*: 
 
+## Hashing
+## Relational Databases
+## Key-Value Stores
+## Specialized Storage Paradigms
+## Replication And Sharding
+## Leader Election
+## Peer-to-Peer Networks
+## Polling and Streaming
+## Configuration
+## Rate Limiting
+## Logging and Monitoring
+## Publish/Subscribe Pattern
+## MapReduce
+## Security and HTTPS
+
 TODO: 
 - graylog: https://www.graylog.org/
 - spdlog
