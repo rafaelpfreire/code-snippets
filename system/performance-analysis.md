@@ -145,3 +145,11 @@ perf mem -t load report --sort=mem --stdio
 - If a problem is a highly parallelizable computation, make it threaded, or consider running it on a GPU.
 - Use async IO to avoid blocking while waiting for IO operations.
 - Leverage using more RAM to reduce the amount of CPU and IO you have to use (memoization, look-up tables, caching of data, compression, etc.)
+
+## Chapter 7 CPU Front-End Optimizations
+MOst of the time, inefficiencies in CPU FE can be described as a situation when Back-End is waiting for instructions to execute, but FE is not able to provide them so CPU cycles are wasted without doing any actual work. Because modern CPU are 4-wide (i.e. they can provide four uops every cycle), there can be a situation when not all four available slots are filled. As a rule of thumb when TMA analysis points to a Front-End Bound metric grater than 20%, it's worth spending some time trying to optimize FE.
+
+- Basic Block Placement: By placing "hot" machine code (meaning expensive machine code and/or code that is executed many times) close to each other you end up with more Instruction Cache and DSB (decoded uops cache) hits which improves performance. This can be done by using the attributes C++ [[likely]] and [[unlikely]] inside `if` and `switch` statements.
+- Basic Block Alignment: Most likely to hapen on small loops when uops does not align with Instruction Cache or DSB: (https://easyperf.net/blog/2018/01/18/Code_alignment_issues) (https://easyperf.net/blog/2018/01/25/Code_alignment_options_in_llvm)
+- Function Splitting (Outlining): The idea behind function splitting is to separate hot code from the cold and making sure that the cold code is not inlined by using the noninline compiler attribute (or [[unlikely]] attribute). By leaving a `CALL` instruction inside the hot path, it's likely that the next hot instruction will reside in the same instruction cache line.
+- Function Grouping: Following the principles described in previous sections, hot functions can be grouped together to further improve the utilization of caches in the CPU Front-End. When hot functions are grouped together, they might share the same cache line, which reduces the number of cache lines the CPU needs to fetch.
