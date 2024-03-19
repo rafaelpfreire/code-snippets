@@ -157,7 +157,7 @@ MOst of the time, inefficiencies in CPU FE can be described as a situation when 
 2. Compile the code with `-ffunction-sections` flag, which will put each function into a separate section. Then use the Gold linker (ld.gold) with `--section-ordering-file=order.txt` option with a sorted list of function names that reflects the desired final layout.
 3. The same feature exists in the LDD linker, which is part LLVM compiler infrastructure and is accessible via the `--symbol-ordering-file` option
 4. Use the [HFSort](https://github.com/facebook/hhvm/tree/master/hphp/tools/hfsort) tool which generates section ordering file automatically based on profiling data.
-- **Profile Guided Optimizations (PGO):** It boils down to compiling a program with instrumentation, running the program and gather profiling measurements and recompiling the program using the profiling information (a.k.a Feedback Directed Optimizations). Users of PGO should be careful about choosing the workload to profile because while improving one use case of the application, other might be pessimized.
+- **Profile Guided Optimizations (PGO):** It boils down to compiling a program with instrumentation, running the program and gather profiling measurements and recompiling the program using the profiling information (a.k.a Feedback Directed Optimizations). Users of PGO should be careful about choosing the workload to profile because while improving one use case of the application, other might be pessimized. It is usually the best option to use PGO if you can come up with a set of typical use cases (tests) for your application.
 1. clang (LLVM): use the `-fprofile-instr-generate` option to instrument the code and the `-fprofile-instr-use` option to recompile the program and output PGO-tunned binary. See [Documentation](https://clang.llvm.org/docs/UsersManual.html#profiling-with-instrumentation)
 2. gcc (GNU): Use the options `-fprofile-generate` and `-fprofile-use` as described in the [documentation](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html#Optimize-Options)
 3. Facebook's [BOLT](https://engineering.fb.com/2018/06/19/data-infrastructure/accelerate-large-scale-applications-with-bolt/)
@@ -167,3 +167,13 @@ MOst of the time, inefficiencies in CPU FE can be described as a situation when 
 | Transform | How | Why helps? | Works best for | Done by |
 | --------- | --- | ---------- | -------------- | ------- |
 | Basic block placement | maintain fall through hot code | not taken branches are cheaper; better cache utilization | any code, especially with a lot of branches | compiler |
+| Basic block alignment | shift the hot code using NOPS | better cache utilization | hot loops | compiler |
+| Function splitting | split cold blocks of code and place them in separate functions | better cache utilization | functions with complex CFG when there are big blocks of cold code between hot parts | compiler |
+| Function grouping | group hot functions together | better cache utilization | many small hot functions | linker |
+
+## Chapter 8 CPU Back-End Optimizations
+- Most of the real-world applications experience performance bottlenecks that can be related to the CPU Backend. It is not surprising since all the memory-related issues, as well as inefficient computations, belong to this category.
+- Performance of the memory subsystem is not growing as fast as CPU performance. Yet, memory accesses are a frequent source of performance problems in many applications. Speeding up such programs requires revising the way they access memory.
+- In section 8.1, we discussed some of the popular recipes for cache-friendly data structures, memory prefetching, and utilizing large memory pages to improve DTLB performance.
+- Inefficient computations also represent a significant portion of the bottlenecks in real-world applications. Modern compilers are very good at removing unnecessary computation overhead by performing many different code transformations. Still, there is a high chance that we can do better than what compilers can offer.
+- In section 8.2, we showed how one could search performance headrooms in a program by forcing certain code optimizations. We discussed such popular transformations as function inlining, loop optimizations, and vectorization.
