@@ -172,6 +172,9 @@ MOst of the time, inefficiencies in CPU FE can be described as a situation when 
 | Function grouping | group hot functions together | better cache utilization | many small hot functions | linker |
 
 ## Chapter 8 CPU Back-End Optimizations
+Most of the time, inefficiencies in CPU BE can be described as a situation when FE has fetched and decoded instructions, but BE is overloaded and can’t handle new instructions. Technically speaking, it is a situation when FE cannot deliver uops due to a lack of required resources for accepting new uops in the
+Backend. An example of it may be a stall due to data-cache miss or a stall due to the divider unit being overloaded.
+I want to emphasize to the reader that it’s recommended to start looking into optimizing code for CPU BE only when TMA points to a high “Back-End Bound” metric. TMA further divides the Backend Bound metric into two main categories: Memory Bound and Core Bound, which we will discuss next.
 - Most of the real-world applications experience performance bottlenecks that can be related to the CPU Backend. It is not surprising since all the memory-related issues, as well as inefficient computations, belong to this category.
 - Performance of the memory subsystem is not growing as fast as CPU performance. Yet, memory accesses are a frequent source of performance problems in many applications. Speeding up such programs requires revising the way they access memory.
 - In section 8.1, we discussed some of the popular recipes for cache-friendly data structures, memory prefetching, and utilizing large memory pages to improve DTLB performance.
