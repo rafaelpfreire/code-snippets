@@ -164,8 +164,6 @@ MOst of the time, inefficiencies in CPU FE can be described as a situation when 
 4. Google's [Propeller](https://github.com/google/llvm-propeller)
 - **Optimizing for ITLB:** Another important area of tuning FE efficiency is virtual-to-physical address translation of memory addresses. Primarily those translations are served by TLB (Translation Look Aside Buffer), which caches most recently used memory page translations in dedicated entries. When TLB cannot serve the translation request, a time-consuming page walk of the kernel page table takes place to calculate the correct physical address for each referenced virtual address. When TMA points to a high ITLB Overhead 176, the advice in this section may become handy. ITLB pressure can be reduced by mapping the portions of the performance-critical code of an application onto large pages. This requires relinking the binary to align text segments at the proper page boundary in preparation for large page mapping (see [guide](https://github.com/libhugetlbfs/libhugetlbfs/blob/master/HOWTO) to libhugetlbfs).
 
-```markdown
 | Transform | How | Why helps? | Works best for | Done by |
 | --------- | --- | ---------- | -------------- | ------- |
 | Basic block placement | maintain fall through hot code | not taken branches are cheaper; better cache utilization | any code, especially with a lot of branches | compiler |
-```
