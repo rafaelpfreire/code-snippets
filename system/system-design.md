@@ -100,4 +100,7 @@ TODO:
 - fftw: https://www.fftw.org/
 - volk: https://github.com/gnuradio/volk
 - vectorclass: https://github.com/vectorclass/version2
+- simdpp: https://github.com/p12tic/libsimdpp
 - eigen: https://eigen.tuxfamily.org/index.php?title=Main_Page
+- cds: https://github.com/khizmax/libcds/tree/master
+- async++: https://github.com/Amanieu/asyncplusplus?tab=readme-ov-file
