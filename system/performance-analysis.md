@@ -2,6 +2,11 @@
 Author: Denis Bakhvalov
 URL: easyperf.net
 
+Tools for benchmarking:
+- Google's Benchmark: https://github.com/google/benchmark
+- Temci: https://temci.readthedocs.io/en/latest/
+- Autoperf: https://github.com/mejbah/AutoPerf
+
 ## Chapter 1 - Introduction
 - HW is not getting that much performance boosts in single-threaded performance as it used to in the past years. That’s why performance tuning is becoming more important than it has been for the last 40 years. The computing industry is changing now much more heavily than at any time since the 90s.
 - According to [Leiserson et al., 2020], SW tuning will be one of the key drivers for performance gains in the near future. The importance of performance tuning should not be underestimated. For large distributed applications, every small performance improvement results in immense cost savings.
