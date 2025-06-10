@@ -189,3 +189,7 @@ I want to emphasize to the reader that it’s recommended to start looking into 
 - In section 8.1, we discussed some of the popular recipes for cache-friendly data structures, memory prefetching, and utilizing large memory pages to improve DTLB performance.
 - Inefficient computations also represent a significant portion of the bottlenecks in real-world applications. Modern compilers are very good at removing unnecessary computation overhead by performing many different code transformations. Still, there is a high chance that we can do better than what compilers can offer.
 - In section 8.2, we showed how one could search performance headrooms in a program by forcing certain code optimizations. We discussed such popular transformations as function inlining, loop optimizations, and vectorization.
+
+## Bad Speculation Optimizations
+- Branch Mispredictions: failed speculated execution. Can be improved by using branchless algorithms: Lookup tables, branch predictions and branch arithmetics.
+- Machine Clears: Memory order nukes (multiple threads and shared data) or self-modifying code (SMC)
