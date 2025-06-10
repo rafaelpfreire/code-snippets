@@ -7,6 +7,9 @@ Tools for benchmarking:
 - Temci: https://temci.readthedocs.io/en/latest/
 - Autoperf: https://github.com/mejbah/AutoPerf
 - pmu-tools: https://github.com/andikleen/pmu-tools/tree/master
+- perf tutorials:
+    - https://easyperf.net/blog/2018/08/26/Basics-of-profiling-with-perf
+    - https://www.brendangregg.com/perf.html
 
 ## Chapter 1 - Introduction
 - HW is not getting that much performance boosts in single-threaded performance as it used to in the past years. That’s why performance tuning is becoming more important than it has been for the last 40 years. The computing industry is changing now much more heavily than at any time since the 90s.
