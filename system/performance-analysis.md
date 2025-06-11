@@ -11,6 +11,10 @@ Tools for benchmarking:
     - https://easyperf.net/blog/2018/08/26/Basics-of-profiling-with-perf
     - https://www.brendangregg.com/perf.html
 
+## Perf & PMU-Tools cheat sheet
+- toplev --core S0-C0 -l2 --run-sample --no-desc -v taskset -c 0 <executable>
+- perf report -m -M intel
+
 ## Chapter 1 - Introduction
 - HW is not getting that much performance boosts in single-threaded performance as it used to in the past years. That’s why performance tuning is becoming more important than it has been for the last 40 years. The computing industry is changing now much more heavily than at any time since the 90s.
 - According to [Leiserson et al., 2020], SW tuning will be one of the key drivers for performance gains in the near future. The importance of performance tuning should not be underestimated. For large distributed applications, every small performance improvement results in immense cost savings.
