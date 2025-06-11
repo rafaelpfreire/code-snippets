@@ -194,6 +194,12 @@ I want to emphasize to the reader that it’s recommended to start looking into 
 - Inefficient computations also represent a significant portion of the bottlenecks in real-world applications. Modern compilers are very good at removing unnecessary computation overhead by performing many different code transformations. Still, there is a high chance that we can do better than what compilers can offer.
 - In section 8.2, we showed how one could search performance headrooms in a program by forcing certain code optimizations. We discussed such popular transformations as function inlining, loop optimizations, and vectorization.
 
-## Bad Speculation Optimizations
+## Optimization Ideas
+### Bad Speculation
 - Branch Mispredictions: failed speculated execution. Can be improved by using branchless algorithms: Lookup tables, branch predictions and branch arithmetics.
 - Machine Clears: Memory order nukes (multiple threads and shared data) or self-modifying code (SMC)
+## Core Bound
+- Backend performance problems that are not caused by memory issues
+- One reason might be the shortage in hardware compute resources (limits throughput). Indicates that executions units are overloaded (execution port contengent), e.g. when processor is loaded with multiple heavy instructions (sqrt, div, etc)
+- Another reason might be the dependency between instructions (increase latency), AKA dependency chains. This makes the out of order execution performance worse.
+- Some of the ideas to fix these problems are: vectorization, function inlining, loop transformations, compiler intrinsics, others.
