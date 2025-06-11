@@ -12,6 +12,7 @@ Tools for benchmarking:
     - https://www.brendangregg.com/perf.html
 
 ## Perf & PMU-Tools cheat sheet
+- perf record -g taskset -c 0 <executable>
 - toplev --core S0-C0 -l2 --run-sample --no-desc -v taskset -c 0 <executable>
 - perf report -m -M intel
 
