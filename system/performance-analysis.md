@@ -16,6 +16,17 @@ Tools for benchmarking:
 - toplev --core S0-C0 -l2 --run-sample --no-desc -v taskset -c 0 <executable>
 - perf report -m -M intel
 
+## Flame graphs
+https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html
+```bash
+git clone https://github.com/brendangregg/FlameGraph  # or download it from github
+cd FlameGraph
+perf record -F 99 -a -g -- sleep 60
+perf script | ./stackcollapse-perf.pl > out.perf-folded
+./flamegraph.pl out.perf-folded > perf.svg
+firefox perf.svg  # or chrome, etc.
+```
+
 ## Chapter 1 - Introduction
 - HW is not getting that much performance boosts in single-threaded performance as it used to in the past years. That’s why performance tuning is becoming more important than it has been for the last 40 years. The computing industry is changing now much more heavily than at any time since the 90s.
 - According to [Leiserson et al., 2020], SW tuning will be one of the key drivers for performance gains in the near future. The importance of performance tuning should not be underestimated. For large distributed applications, every small performance improvement results in immense cost savings.
